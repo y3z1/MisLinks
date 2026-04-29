@@ -19,7 +19,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
-/* Fondo decorativo */
+/* Fondo decorativo de malla */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
@@ -57,7 +57,7 @@ header{
 }
 #search:focus{ width: 340px; border-color:var(--purple-l); background:rgba(255,255,255,.08); outline:none; }
 
-/* ── HERO MEJORADO ── */
+/* ── HERO ── */
 .hero{
   margin:32px 0; padding:40px; border:1px solid var(--border); border-radius:32px;
   background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
@@ -163,20 +163,29 @@ header{
 </div>
 
 <script>
-// --- TU LÓGICA ORIGINAL MANTENIDA Y OPTIMIZADA ---
+/* ── BASE DE DATOS RESTAURADA ── */
 const CATS = {
   "IA & Claude": {color:"#7F77DD"},
   "Excel & Datos": {color:"#5DCAA5"},
+  "Ejercicio": {color:"#ED93B1"},
+  "Cocina": {color:"#EF9F27"},
+  "Diseño & Foto": {color:"#ED93B1"},
   "Tech": {color:"#85B7EB"},
-  "Diseño": {color:"#ED93B1"},
   "Otros": {color:"#888780"}
 };
 
-let DATA = JSON.parse(localStorage.getItem('MY_LINKS_DB')) || [
-  {l:"Claude AI", u:"https://claude.ai", c:"IA & Claude", y:"2024"},
-  {l:"GitHub", u:"https://github.com", c:"Tech", y:"2024"}
+// Datos iniciales (SEED) recuperados de tu archivo original
+const SEED = [
+  {l:"Claude + Nano Banana",u:"https://www.facebook.com/share/1G3SXaWhTv/",c:"IA & Claude",y:"2026"},
+  {l:"Using LLM",u:"https://www.facebook.com/share/17GttVCpKB/",c:"IA & Claude",y:"2026"},
+  {l:"Claude Power BI",u:"https://youtu.be/9fkKtSiviFg",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso Excel",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Notebook LM",u:"https://www.facebook.com/share/1CvpJR56zw/",c:"IA & Claude",y:"2026"},
+  {l:"AI Tools",u:"https://www.facebook.com/share/r/wSLJtrjidqkcgCNZ/",c:"IA & Claude",y:"2024"},
+  {l:"Checklist colores",u:"https://www.facebook.com/share/r/1EvZoY7MVQ/",c:"Excel & Datos",y:"2024"}
 ];
 
+let DATA = JSON.parse(localStorage.getItem('MY_LINKS_DB')) || SEED;
 let filterCat = 'Todos';
 
 function save(){ localStorage.setItem('MY_LINKS_DB', JSON.stringify(DATA)); }
@@ -197,13 +206,12 @@ function render() {
     card.href = item.u;
     card.target = "_blank";
     card.className = 'lcard';
-    // Efecto cascada: delay basado en el índice
-    card.style.animationDelay = `${index * 0.05}s`;
+    card.style.animationDelay = `${index * 0.03}s`; // Efecto cascada rápido
     
     card.innerHTML = `
       <div class="lcard-label">${item.l}</div>
       <div class="lcard-meta">
-        <span class="lcard-platform" style="color:${CATS[item.c]?.color}">${item.c}</span>
+        <span class="lcard-platform" style="color:${CATS[item.c]?.color || '#fff'}">${item.c}</span>
         <span style="font-size:10px; opacity:0.3">${item.y}</span>
       </div>
     `;
@@ -239,17 +247,17 @@ function addLink() {
   document.getElementById('add-url').value = '';
 }
 
-// Inicialización
-buildCats();
-render();
-
-// Atajo de teclado para buscar
+// Atajo '/' para buscar
 document.addEventListener('keydown', e => {
-  if (e.key === '/') {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
     e.preventDefault();
     document.getElementById('search').focus();
   }
 });
+
+// Inicialización
+buildCats();
+render();
 </script>
 </body>
 </html>
