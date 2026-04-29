@@ -20,7 +20,8 @@
   --coral:#993C1D;--coral-l:#F0997B;--coral-bg:rgba(153,60,29,0.12);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom, rgba(0,0,0,.8), transparent 78%)}
 
 /* ── ORBS ── */
 .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
@@ -29,14 +30,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .orb3{width:350px;height:350px;background:rgba(153,53,86,0.07);bottom:50px;left:40%}
 
 /* ── LAYOUT ── */
-#app{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 24px 60px}
+#app{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 24px 64px}
 
 /* ── HEADER ── */
 header{
   display:flex;align-items:center;
-  padding:28px 0 24px;
-  border-bottom:0.5px solid var(--border);
+  padding:26px 0 18px;
+  border-bottom:1px solid var(--border);
   flex-wrap:wrap;gap:12px;
+  position:sticky;top:0;z-index:20;
+  backdrop-filter:blur(18px);
+  background:linear-gradient(to bottom, rgba(8,8,15,.92), rgba(8,8,15,.68));
 }
 .logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text);flex:1}
 .logo span{color:var(--purple-l)}
@@ -46,20 +50,46 @@ header{
   padding:4px 12px;border-radius:20px;
 }
 #search{
-  background:var(--card);border:0.5px solid var(--border);
-  border-radius:10px;padding:8px 14px;
+  background:rgba(255,255,255,.045);border:1px solid var(--border);
+  border-radius:999px;padding:0 18px;height:42px;
   color:var(--text);font-family:'Inter',sans-serif;font-size:13px;
-  width:230px;outline:none;transition:border-color .2s;
+  width:260px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;
 }
-#search:focus{border-color:var(--purple)}
+#search:focus{border-color:rgba(175,169,236,.55);box-shadow:0 0 0 4px rgba(83,74,183,.16);background:rgba(255,255,255,.07)}
 #search::placeholder{color:var(--dim)}
+
+
+
+/* ── HERO ── */
+.hero{
+  margin:32px 0 22px;
+  padding:34px;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at top left, rgba(127,119,221,.26), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(29,158,117,.16), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+  box-shadow:0 28px 90px rgba(0,0,0,.38);
+  overflow:hidden;
+  position:relative;
+}
+.hero::after{content:'';position:absolute;right:-90px;top:-110px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+.hero-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:end;position:relative;z-index:1}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--purple-l);margin-bottom:12px;font-weight:700}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(38px,7vw,74px);line-height:.92;letter-spacing:-.07em;max-width:720px}
+.hero-sub{max-width:570px;margin-top:16px;color:rgba(232,232,240,.58);font-size:15px;line-height:1.6}
+.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:18px;padding:16px;backdrop-filter:blur(10px)}
+.stat strong{display:block;font-family:'Syne',sans-serif;font-size:26px;line-height:1;color:var(--text)}
+.stat span{display:block;margin-top:7px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 
 /* ── CATEGORY PILLS ── */
 .cats{display:flex;gap:6px;flex-wrap:wrap;padding:20px 0 4px}
 .cat-btn{
-  font-size:12px;padding:5px 14px;border-radius:20px;
-  border:0.5px solid var(--border);
-  background:transparent;color:var(--muted);
+  font-size:12px;padding:7px 15px;border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);color:var(--muted);
   cursor:pointer;transition:all .18s;font-family:'Inter',sans-serif;
 }
 .cat-btn:hover{color:var(--text);border-color:var(--border-h);background:var(--card)}
@@ -74,16 +104,18 @@ header{
 .section-line{flex:1;height:.5px;background:var(--border)}
 
 /* ── GRID ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 
 /* ── LINK CARD ── */
 .lcard{
-  background:var(--card);border:0.5px solid var(--border);
-  border-radius:12px;padding:14px 14px 12px;
-  display:flex;flex-direction:column;gap:6px;
+  background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.022)),var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;padding:16px;min-height:104px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:12px;
   text-decoration:none;cursor:pointer;
-  transition:background .18s,border-color .18s,transform .18s;
+  transition:background .18s,border-color .18s,transform .18s,box-shadow .18s;
   position:relative;overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
 }
 .lcard::after{
   content:'';position:absolute;left:0;top:12%;bottom:12%;
@@ -91,9 +123,9 @@ header{
   background:var(--cat-color,var(--purple));
   opacity:0;transition:opacity .2s;
 }
-.lcard:hover{background:var(--card-h);border-color:var(--border-h);transform:translateY(-2px)}
+.lcard:hover{background:linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.035)),var(--card-h);border-color:var(--border-h);transform:translateY(-4px);box-shadow:0 18px 45px rgba(0,0,0,.32)}
 .lcard:hover::after{opacity:.55}
-.lcard-label{font-size:13px;font-weight:500;color:var(--text);line-height:1.35}
+.lcard-label{font-size:14px;font-weight:600;color:var(--text);line-height:1.35;padding-right:18px}
 .lcard-meta{display:flex;align-items:center;gap:6px}
 .lcard-platform{
   font-size:9px;font-weight:700;letter-spacing:.04em;
@@ -117,9 +149,11 @@ header{
 
 /* ── ADD FORM ── */
 .add-section{
-  margin-top:36px;
-  border:0.5px dashed var(--border-h);
-  border-radius:14px;padding:20px;
+  margin-top:40px;
+  border:1px solid var(--border);
+  border-radius:22px;padding:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
 }
 .add-title{font-size:12px;color:var(--dim);margin-bottom:14px;letter-spacing:.05em}
 .add-row{display:flex;gap:8px;flex-wrap:wrap}
@@ -137,8 +171,8 @@ header{
 #add-cat-sel{min-width:150px;cursor:pointer}
 #add-cat-sel option{background:#0f0f1a}
 .add-btn{
-  background:var(--purple);color:#EEEDFE;
-  border:none;border-radius:8px;padding:8px 20px;
+  background:linear-gradient(135deg,var(--purple),#7F77DD);color:#EEEDFE;
+  border:none;border-radius:12px;padding:9px 22px;
   font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
   cursor:pointer;transition:all .18s;white-space:nowrap;
 }
@@ -190,7 +224,11 @@ kbd{
   .add-row{flex-direction:column}
   .add-row input,.add-row select,.add-btn{width:100%}
   .footer-hint{display:none}
+  .hero{padding:24px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:1fr 1fr}
 }
+@media(max-width:420px){.hero-stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -204,6 +242,20 @@ kbd{
     <div class="header-count" id="hcount">0 links</div>
     <input id="search" type="text" placeholder="buscar...  ( / )" oninput="render()">
   </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Personal Knowledge Hub</p>
+        <h1>Links útiles, ordenados y rápidos.</h1>
+        <p class="hero-sub">Una biblioteca personal para guardar recursos de IA, Excel, ejercicio, cocina, diseño, tecnología y más. Menos caos. Más acceso.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong id="stat-total">0</strong><span>Total links</span></div>
+        <div class="stat"><strong id="stat-cats">0</strong><span>Categorías</span></div>
+      </div>
+    </div>
+  </section>
 
   <div class="cats" id="cats"></div>
   <div id="content"></div>
@@ -247,6 +299,19 @@ const CATS = {
   "Manualidades":   {color:"#F0997B",bg:"rgba(153,60,29,.12)"},
   "Entretenimiento":{color:"#AFA9EC",bg:"rgba(83,74,183,.1)"},
   "Otros":          {color:"#888780",bg:"rgba(136,135,128,.1)"},
+};
+
+
+const CAT_ICON = {
+  "IA & Claude":"🤖",
+  "Excel & Datos":"📊",
+  "Ejercicio":"💪",
+  "Cocina":"🍳",
+  "Diseño & Foto":"🎨",
+  "Tech":"💻",
+  "Manualidades":"✂️",
+  "Entretenimiento":"🎬",
+  "Otros":"🔗"
 };
 
 const PLATFORM_ABBR = {
@@ -579,6 +644,8 @@ function render() {
   const data = filtered();
   document.getElementById('hcount').textContent = data.length + ' links';
   document.getElementById('footer-total').textContent = DATA.length + ' links guardados';
+  document.getElementById('stat-total').textContent = DATA.length;
+  document.getElementById('stat-cats').textContent = Object.keys(CATS).length;
 
   const content = document.getElementById('content');
   if (!data.length) {
@@ -612,7 +679,7 @@ function render() {
     return `<div class="section">
       <div class="section-head">
         <div class="section-dot" style="background:${cfg.color}"></div>
-        <div class="section-title">${esc(cat)}</div>
+        <div class="section-title">${CAT_ICON[cat] || '🔗'} ${esc(cat)}</div>
         <div class="section-n">${items.length}</div>
         <div class="section-line"></div>
       </div>
