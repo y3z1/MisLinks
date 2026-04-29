@@ -19,7 +19,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
-/* Fondo decorativo de malla */
+/* Fondo decorativo */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
@@ -57,7 +57,7 @@ header{
 }
 #search:focus{ width: 340px; border-color:var(--purple-l); background:rgba(255,255,255,.08); outline:none; }
 
-/* ── HERO ── */
+/* ── HERO MEJORADO ── */
 .hero{
   margin:32px 0; padding:40px; border:1px solid var(--border); border-radius:32px;
   background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
@@ -84,7 +84,7 @@ header{
   gap:16px;
 }
 
-/* ── TARJETAS (L-CARD) ── */
+/* ── TARJETAS ── */
 .lcard{
   background: var(--card); border:1px solid var(--border);
   border-radius:20px; padding:20px; min-height:120px;
@@ -139,7 +139,7 @@ header{
     <div class="hero-grid">
       <div>
         <h1>Tu biblioteca digital, refinada.</h1>
-        <p class="hero-sub">Organiza recursos de IA, diseño y tecnología en un solo lugar con acceso inmediato.</p>
+        <p class="hero-sub">Organiza recursos de IA, datos y tecnología con acceso inmediato.</p>
       </div>
       <div class="hero-stats" style="display: flex; gap: 20px;">
         <div class="stat"> <strong id="stat-total" style="font-size: 32px; color: var(--purple-l);">0</strong><br><span style="font-size: 12px; opacity: 0.6;">LINKS</span> </div>
@@ -163,26 +163,42 @@ header{
 </div>
 
 <script>
-/* ── BASE DE DATOS RESTAURADA ── */
+/* ── BASE DE DATOS RESTAURADA DE TU ARCHIVO ── */
 const CATS = {
-  "IA & Claude": {color:"#7F77DD"},
-  "Excel & Datos": {color:"#5DCAA5"},
-  "Ejercicio": {color:"#ED93B1"},
-  "Cocina": {color:"#EF9F27"},
-  "Diseño & Foto": {color:"#ED93B1"},
-  "Tech": {color:"#85B7EB"},
-  "Otros": {color:"#888780"}
+  "IA & Claude":    {color:"#7F77DD"},
+  "Excel & Datos":  {color:"#5DCAA5"},
+  "Ejercicio":      {color:"#ED93B1"},
+  "Cocina":         {color:"#EF9F27"},
+  "Diseño & Foto":  {color:"#ED93B1"},
+  "Tech":           {color:"#85B7EB"},
+  "Manualidades":   {color:"#F0997B"},
+  "Entretenimiento":{color:"#AFA9EC"},
+  "Otros":          {color:"#888780"},
 };
 
-// Datos iniciales (SEED) recuperados de tu archivo original
 const SEED = [
   {l:"Claude + Nano Banana",u:"https://www.facebook.com/share/1G3SXaWhTv/",c:"IA & Claude",y:"2026"},
   {l:"Using LLM",u:"https://www.facebook.com/share/17GttVCpKB/",c:"IA & Claude",y:"2026"},
-  {l:"Claude Power BI",u:"https://youtu.be/9fkKtSiviFg",c:"Excel & Datos",y:"2026"},
-  {l:"Barra de progreso Excel",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Best AI (reel)",u:"https://www.instagram.com/reel/DWWtpWpDPRD/",c:"IA & Claude",y:"2026"},
+  {l:"AI Studio",u:"https://www.facebook.com/share/v/1AeG46Zboi/",c:"IA & Claude",y:"2026"},
+  {l:"Skills Claude",u:"https://www.facebook.com/share/r/1BcrXuREmM/",c:"IA & Claude",y:"2026"},
+  {l:"Ahorrar tokens",u:"https://www.facebook.com/share/r/1CP8XHHM6p/",c:"IA & Claude",y:"2026"},
+  {l:"Save tokens",u:"https://www.facebook.com/share/r/1Y1Sooqh9r/",c:"IA & Claude",y:"2026"},
+  {l:"Claude Design",u:"https://www.facebook.com/share/r/1ENfUN2WXh/",c:"IA & Claude",y:"2026"},
+  {l:"Seguridad Claude",u:"https://www.facebook.com/share/r/1JGSKdmx8R/",c:"IA & Claude",y:"2026"},
+  {l:"Jarvis AI",u:"https://www.facebook.com/share/r/17D3qMNoaY/",c:"IA & Claude",y:"2026"},
   {l:"Notebook LM",u:"https://www.facebook.com/share/1CvpJR56zw/",c:"IA & Claude",y:"2026"},
+  {l:"How to use Claude",u:"https://www.facebook.com/share/p/1DZYegK8E9/",c:"IA & Claude",y:"2026"},
+  {l:"Comparador vuelos Claude",u:"https://www.facebook.com/share/v/1Fn9Y113bT/",c:"IA & Claude",y:"2026"},
+  {l:"Awesome design.md",u:"https://www.facebook.com/share/r/17kyyNt56a/",c:"IA & Claude",y:"2026"},
   {l:"AI Tools",u:"https://www.facebook.com/share/r/wSLJtrjidqkcgCNZ/",c:"IA & Claude",y:"2024"},
-  {l:"Checklist colores",u:"https://www.facebook.com/share/r/1EvZoY7MVQ/",c:"Excel & Datos",y:"2024"}
+  {l:"Claude Power BI (1)",u:"https://youtu.be/9fkKtSiviFg",c:"Excel & Datos",y:"2026"},
+  {l:"Claude Power BI (2)",u:"https://youtu.be/wgSsf7yW6Xg",c:"Excel & Datos",y:"2026"},
+  {l:"XLOOKUP multiple values",u:"https://www.facebook.com/share/r/1AxscdjFtd/",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso Excel",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Checklist colores",u:"https://www.facebook.com/share/r/1EvZoY7MVQ/",c:"Excel & Datos",y:"2024"},
+  {l:"Lower back pain",u:"https://www.facebook.com/share/r/1HaNZc8pnY/",c:"Ejercicio",y:"2026"},
+  {l:"Isquios",u:"https://www.facebook.com/share/r/1Nvk5HoEAt/",c:"Ejercicio",y:"2026"}
 ];
 
 let DATA = JSON.parse(localStorage.getItem('MY_LINKS_DB')) || SEED;
@@ -206,7 +222,7 @@ function render() {
     card.href = item.u;
     card.target = "_blank";
     card.className = 'lcard';
-    card.style.animationDelay = `${index * 0.03}s`; // Efecto cascada rápido
+    card.style.animationDelay = `${index * 0.04}s`;
     
     card.innerHTML = `
       <div class="lcard-label">${item.l}</div>
@@ -247,6 +263,10 @@ function addLink() {
   document.getElementById('add-url').value = '';
 }
 
+// Inicialización
+buildCats();
+render();
+
 // Atajo '/' para buscar
 document.addEventListener('keydown', e => {
   if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
@@ -254,10 +274,6 @@ document.addEventListener('keydown', e => {
     document.getElementById('search').focus();
   }
 });
-
-// Inicialización
-buildCats();
-render();
 </script>
 </body>
 </html>
