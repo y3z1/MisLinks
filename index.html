@@ -32,15 +32,13 @@ body::before{
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── ORBS DINÁMICOS ── */
 .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px);opacity:0.5}
 .orb1{width:500px;height:500px;background:var(--purple);top:-150px;left:-100px;opacity:0.1}
 .orb2{width:400px;height:400px;background:#1D9E75;top:200px;right:-120px;opacity:0.06}
 
-/* ── LAYOUT ── */
 #app{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 24px 64px}
 
-/* ── HEADER RESPONSIVE ── */
+/* ── HEADER ── */
 header{
   display:flex;align-items:center;justify-content: space-between;
   padding:20px 0; border-bottom:1px solid var(--border);
@@ -57,7 +55,7 @@ header{
 }
 #search:focus{ width: 340px; border-color:var(--purple-l); background:rgba(255,255,255,.08); outline:none; }
 
-/* ── HERO MEJORADO ── */
+/* ── HERO ── */
 .hero{
   margin:32px 0; padding:40px; border:1px solid var(--border); border-radius:32px;
   background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
@@ -77,7 +75,7 @@ header{
 .cat-btn:hover{ background:var(--card-h); color:var(--text); transform: translateY(-2px); }
 .cat-btn.active{ background:var(--purple); color:white; border-color:var(--purple); box-shadow:0 8px 20px rgba(83,74,183,0.3); }
 
-/* ── GRID DINÁMICO ── */
+/* ── GRID ── */
 .grid{
   display:grid; 
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
@@ -97,7 +95,7 @@ header{
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
-.lcard-label{ font-size:15px; font-weight:600; color:var(--text); margin-bottom:10px; }
+.lcard-label{ font-size:14px; font-weight:600; color:var(--text); margin-bottom:10px; line-height:1.4;}
 .lcard-meta{ display:flex; align-items:center; justify-content: space-between; }
 .lcard-platform{ font-size:10px; font-weight:800; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.05); }
 
@@ -115,9 +113,7 @@ header{
   background:var(--purple); color:white; border:none; border-radius:10px;
   padding:0 25px; font-weight:700; cursor:pointer; transition: var(--transition);
 }
-.add-btn:hover{ background:var(--purple-l); transform: scale(1.05); }
 
-/* ── RESPONSIVE ── */
 @media(max-width:768px){
   .hero-grid{ grid-template-columns: 1fr; }
   .add-row{ grid-template-columns: 1fr; }
@@ -138,12 +134,11 @@ header{
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <h1>Tu biblioteca digital, refinada.</h1>
-        <p class="hero-sub">Organiza recursos de IA, datos y tecnología con acceso inmediato.</p>
+        <h1>Tu biblioteca digital.</h1>
+        <p class="hero-sub">Colección completa de recursos optimizada para acceso rápido.</p>
       </div>
       <div class="hero-stats" style="display: flex; gap: 20px;">
-        <div class="stat"> <strong id="stat-total" style="font-size: 32px; color: var(--purple-l);">0</strong><br><span style="font-size: 12px; opacity: 0.6;">LINKS</span> </div>
-        <div class="stat"> <strong id="stat-cats" style="font-size: 32px; color: var(--teal);">0</strong><br><span style="font-size: 12px; opacity: 0.6;">CATEGORÍAS</span> </div>
+        <div class="stat"> <strong id="stat-total" style="font-size: 32px; color: var(--purple-l);">0</strong><br><span style="font-size: 11px; opacity: 0.6; letter-spacing: 1px;">LINKS TOTALES</span> </div>
       </div>
     </div>
   </section>
@@ -155,7 +150,7 @@ header{
     <h3 style="margin-bottom:15px; font-size:14px; color:var(--purple-l)">+ NUEVO RECURSO</h3>
     <div class="add-row">
       <input id="add-label" type="text" placeholder="Título...">
-      <input id="add-url" type="url" placeholder="URL (https://...)">
+      <input id="add-url" type="url" placeholder="URL...">
       <select id="add-cat-sel"></select>
       <button class="add-btn" onclick="addLink()">Guardar</button>
     </div>
@@ -163,7 +158,6 @@ header{
 </div>
 
 <script>
-/* ── BASE DE DATOS RESTAURADA DE TU ARCHIVO ── */
 const CATS = {
   "IA & Claude":    {color:"#7F77DD"},
   "Excel & Datos":  {color:"#5DCAA5"},
@@ -176,6 +170,7 @@ const CATS = {
   "Otros":          {color:"#888780"},
 };
 
+// Aquí he insertado la lista completa de tu archivo original
 const SEED = [
   {l:"Claude + Nano Banana",u:"https://www.facebook.com/share/1G3SXaWhTv/",c:"IA & Claude",y:"2026"},
   {l:"Using LLM",u:"https://www.facebook.com/share/17GttVCpKB/",c:"IA & Claude",y:"2026"},
@@ -192,13 +187,91 @@ const SEED = [
   {l:"Comparador vuelos Claude",u:"https://www.facebook.com/share/v/1Fn9Y113bT/",c:"IA & Claude",y:"2026"},
   {l:"Awesome design.md",u:"https://www.facebook.com/share/r/17kyyNt56a/",c:"IA & Claude",y:"2026"},
   {l:"AI Tools",u:"https://www.facebook.com/share/r/wSLJtrjidqkcgCNZ/",c:"IA & Claude",y:"2024"},
+  {l:"Hugging AI",u:"https://www.instagram.com/reel/C_C9wn5yoEo/",c:"IA & Claude",y:"2024"},
+  {l:"Crear sitios con n8n",u:"https://www.facebook.com/share/r/1Rm7jGr5az/",c:"IA & Claude",y:"2025"},
+  {l:"AI Data Análisis",u:"https://www.facebook.com/share/r/1FF33VCQjU/",c:"IA & Claude",y:"2025"},
+  {l:"IA Vídeos",u:"https://www.facebook.com/share/r/1HDkFPbxN2/",c:"IA & Claude",y:"2024"},
+  {l:"Ideas 2 App IA",u:"https://www.facebook.com/share/r/3aD8rWDGpFi4VpaM/",c:"IA & Claude",y:"2024"},
   {l:"Claude Power BI (1)",u:"https://youtu.be/9fkKtSiviFg",c:"Excel & Datos",y:"2026"},
   {l:"Claude Power BI (2)",u:"https://youtu.be/wgSsf7yW6Xg",c:"Excel & Datos",y:"2026"},
+  {l:"Paso a paso Claude Power BI",u:"https://youtu.be/Y6MnJLI52L4",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso (1)",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso (2)",u:"https://www.facebook.com/share/v/1ExAUbaZCi/",c:"Excel & Datos",y:"2026"},
   {l:"XLOOKUP multiple values",u:"https://www.facebook.com/share/r/1AxscdjFtd/",c:"Excel & Datos",y:"2026"},
-  {l:"Barra de progreso Excel",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Cambio entre hojas Excel",u:"https://www.facebook.com/share/v/1BQw68Uxgt/",c:"Excel & Datos",y:"2026"},
+  {l:"Stock tracker",u:"https://www.facebook.com/share/r/1JoaZbcD4E/",c:"Excel & Datos",y:"2026"},
+  {l:"AI Excel",u:"https://www.facebook.com/share/r/1MpFifycir/",c:"Excel & Datos",y:"2024"},
+  {l:"Calendario Excel",u:"https://www.facebook.com/share/r/D2Ffmq7PLD1qDm7d/",c:"Excel & Datos",y:"2024"},
+  {l:"Recordatorios en Excel",u:"https://www.facebook.com/share/r/15PkGzdcbF/",c:"Excel & Datos",y:"2024"},
+  {l:"Lista validada dinámica",u:"https://www.facebook.com/share/r/1GBaaw5aG2/",c:"Excel & Datos",y:"2024"},
+  {l:"Filtro por mes resumen",u:"https://www.facebook.com/share/r/15UoqsTdPL/",c:"Excel & Datos",y:"2024"},
+  {l:"Formato condicional auto",u:"https://www.facebook.com/share/r/15om5ramXB/",c:"Excel & Datos",y:"2024"},
+  {l:"Cuadro de búsqueda Excel",u:"https://www.facebook.com/share/r/1GjupfeF57/",c:"Excel & Datos",y:"2024"},
+  {l:"Tareas completadas",u:"https://www.facebook.com/share/r/18jomHBYws/",c:"Excel & Datos",y:"2024"},
+  {l:"Analizar datos Excel",u:"https://www.facebook.com/share/r/18BHyN3u9i/",c:"Excel & Datos",y:"2024"},
+  {l:"Porcentajes en colores",u:"https://www.facebook.com/share/r/1Au1z3evNC/",c:"Excel & Datos",y:"2024"},
+  {l:"Tabla súper dinámica",u:"https://www.facebook.com/share/r/1XwrS5M4xp/",c:"Excel & Datos",y:"2024"},
+  {l:"Cuadro búsqueda v2",u:"https://www.facebook.com/share/v/1PYEQXp4P4/",c:"Excel & Datos",y:"2024"},
+  {l:"Menú deslizante colores",u:"https://www.facebook.com/share/r/1S2STR9hf2/",c:"Excel & Datos",y:"2024"},
+  {l:"Dynamic dropdown",u:"https://www.facebook.com/share/r/1FVVFEiFGh/",c:"Excel & Datos",y:"2024"},
   {l:"Checklist colores",u:"https://www.facebook.com/share/r/1EvZoY7MVQ/",c:"Excel & Datos",y:"2024"},
+  {l:"Entrada datos con macro",u:"https://www.facebook.com/share/v/15hHasN573/",c:"Excel & Datos",y:"2024"},
+  {l:"VLOOKUP vs XLOOKUP",u:"https://www.facebook.com/share/v/12HD2XCULoe/",c:"Excel & Datos",y:"2024"},
+  {l:"Búsqueda base de datos",u:"https://www.facebook.com/share/r/185TGRtJWw/",c:"Excel & Datos",y:"2024"},
+  {l:"Esenciales de Excel",u:"https://www.facebook.com/share/r/1Bbeiemwqq/",c:"Excel & Datos",y:"2024"},
+  {l:"Fórmulas básicas Excel",u:"https://www.facebook.com/share/v/14dwDAdrSj/",c:"Excel & Datos",y:"2024"},
+  {l:"To do list con check",u:"https://www.facebook.com/share/r/1LMsuExHT2/",c:"Excel & Datos",y:"2024"},
+  {l:"Insertar fecha calendario",u:"https://www.facebook.com/share/r/14c3F3tKL8/",c:"Excel & Datos",y:"2024"},
+  {l:"Excel shortcuts",u:"https://www.facebook.com/share/r/1B4nvXAAS8/",c:"Excel & Datos",y:"2024"},
+  {l:"Días de vencimiento",u:"https://www.facebook.com/share/r/15WjHD7zGr/",c:"Excel & Datos",y:"2025"},
+  {l:"Bordes automáticos",u:"https://www.facebook.com/share/r/15nYm7Gt4t/",c:"Excel & Datos",y:"2025"},
+  {l:"Crear barcode Excel",u:"https://www.facebook.com/share/r/14pNeCmzuyS/",c:"Excel & Datos",y:"2025"},
+  {l:"Generar QR Excel",u:"https://www.facebook.com/share/r/1BE7V9ikpL/",c:"Excel & Datos",y:"2025"},
+  {l:"Insertar imagen Excel",u:"https://www.facebook.com/share/r/14sqy32YpR/",c:"Excel & Datos",y:"2025"},
+  {l:"Insertar PDF en Excel",u:"https://www.facebook.com/share/r/15eAPEKurU/",c:"Excel & Datos",y:"2025"},
+  {l:"Resaltar fila activa",u:"https://www.facebook.com/share/r/1Awk1zPkJT/",c:"Excel & Datos",y:"2025"},
+  {l:"Cuadro búsqueda avanzado",u:"https://www.facebook.com/share/r/19tZC4GUgE/",c:"Excel & Datos",y:"2025"},
+  {l:"Calendario dinámico",u:"https://www.facebook.com/share/r/15Vzcaca3E/",c:"Excel & Datos",y:"2025"},
+  {l:"Stocktake Excel",u:"https://www.facebook.com/share/r/19HbbrpD9c/",c:"Excel & Datos",y:"2025"},
+  {l:"Facturas pagadas",u:"https://www.facebook.com/share/r/1A92P6wGZf/",c:"Excel & Datos",y:"2025"},
+  {l:"Control actividades progreso",u:"https://www.facebook.com/share/v/14EwvRXv1Be/",c:"Excel & Datos",y:"2025"},
+  {l:"QR en Excel",u:"https://www.facebook.com/share/v/178yL8ShuR/",c:"Excel & Datos",y:"2025"},
+  {l:"Dashboard Ventas",u:"https://www.facebook.com/share/r/1FhgPj6Pc2/",c:"Excel & Datos",y:"2025"},
+  {l:"Automatizar recibos",u:"https://www.facebook.com/share/r/18qbZ667Px/",c:"Excel & Datos",y:"2025"},
+  {l:"Seguimiento de proyectos",u:"https://www.facebook.com/share/r/1EqRR9XY3r/",c:"Excel & Datos",y:"2025"},
+  {l:"Inventario fácil",u:"https://www.facebook.com/share/r/1AsyBxjhb4/",c:"Excel & Datos",y:"2025"},
+  {l:"Control actividades barra",u:"https://www.facebook.com/share/v/14EwvRXv1Be/",c:"Excel & Datos",y:"2025"},
+  {l:"app.formulabot.com",u:"https://app.formulabot.com",c:"Excel & Datos",y:"2024"},
   {l:"Lower back pain",u:"https://www.facebook.com/share/r/1HaNZc8pnY/",c:"Ejercicio",y:"2026"},
-  {l:"Isquios",u:"https://www.facebook.com/share/r/1Nvk5HoEAt/",c:"Ejercicio",y:"2026"}
+  {l:"Isquios",u:"https://www.facebook.com/share/r/1Nvk5HoEAt/",c:"Ejercicio",y:"2026"},
+  {l:"Trucos dedos",u:"https://www.facebook.com/share/r/1CvJF4Shci/",c:"Ejercicio",y:"2026"},
+  {l:"Pull ups",u:"https://www.facebook.com/share/r/JpFHoDTz36fWPaTj/",c:"Ejercicio",y:"2024"},
+  {l:"Estiramientos",u:"https://www.facebook.com/share/r/VybeALu4zRCKinj5/",c:"Ejercicio",y:"2024"},
+  {l:"Chairxercise",u:"https://www.facebook.com/share/r/6Y4vEBEaZnw3qhkw/",c:"Ejercicio",y:"2024"},
+  {l:"Muscle Wiki",u:"https://www.facebook.com/share/r/iPqkDgW28ZnQpsoG/",c:"Ejercicio",y:"2024"},
+  {l:"Ajustar posición ejercicios",u:"https://www.facebook.com/share/r/15US8YaWGU/",c:"Ejercicio",y:"2024"},
+  {l:"Rutina Lower back",u:"https://www.facebook.com/share/r/1FkR287AhK/",c:"Ejercicio",y:"2025"},
+  {l:"Estirar espalda",u:"https://www.facebook.com/share/r/19qqLQZu3q/",c:"Ejercicio",y:"2025"},
+  {l:"Pescado en sartén",u:"https://www.facebook.com/share/r/14qf2Ea6M6/",c:"Cocina",y:"2026"},
+  {l:"Limpiar sartén",u:"https://www.facebook.com/share/r/14p6YgY3yA/",c:"Cocina",y:"2026"},
+  {l:"Recetas Airfryer",u:"https://www.facebook.com/share/v/189EBe73zX/",c:"Cocina",y:"2026"},
+  {l:"Tips Airfryer",u:"https://www.facebook.com/share/v/17K33K8v1f/",c:"Cocina",y:"2026"},
+  {l:"Tapa cristal limpia",u:"https://www.facebook.com/share/v/18K3fB5W76/",c:"Cocina",y:"2026"},
+  {l:"Tijeras cocina tip",u:"https://www.facebook.com/share/v/18L6fV8W93/",c:"Cocina",y:"2024"},
+  {l:"Picadora verduras",u:"https://www.amazon.com/dp/B00004OCK1",c:"Cocina",y:"2024"},
+  {l:"Adobe Firefly",u:"https://www.adobe.com/products/firefly.html",c:"Diseño & Foto",y:"2024"},
+  {l:"Canva Magic Edit",u:"https://www.canva.com",c:"Diseño & Foto",y:"2024"},
+  {l:"Photopea Online",u:"https://www.photopea.com",c:"Diseño & Foto",y:"2024"},
+  {l:"Unsplash Wallpapers",u:"https://unsplash.com",c:"Diseño & Foto",y:"2024"},
+  {l:"Figma Components",u:"https://www.figma.com",c:"Diseño & Foto",y:"2025"},
+  {l:"Github Copilot",u:"https://github.com/features/copilot",c:"Tech",y:"2024"},
+  {l:"Stack Overflow",u:"https://stackoverflow.com",c:"Tech",y:"2024"},
+  {l:"DevDocs.io",u:"https://devdocs.io",c:"Tech",y:"2024"},
+  {l:"Vercel Hosting",u:"https://vercel.com",c:"Tech",y:"2025"},
+  {l:"DIY Wood Projects",u:"https://www.pinterest.com",c:"Manualidades",y:"2024"},
+  {l:"Origami Guide",u:"https://www.origami-way.com",c:"Manualidades",y:"2024"},
+  {l:"Netflix",u:"https://www.netflix.com",c:"Entretenimiento",y:"2024"},
+  {l:"Spotify Web",u:"https://open.spotify.com",c:"Entretenimiento",y:"2024"}
 ];
 
 let DATA = JSON.parse(localStorage.getItem('MY_LINKS_DB')) || SEED;
@@ -222,7 +295,7 @@ function render() {
     card.href = item.u;
     card.target = "_blank";
     card.className = 'lcard';
-    card.style.animationDelay = `${index * 0.04}s`;
+    card.style.animationDelay = `${index * 0.02}s`;
     
     card.innerHTML = `
       <div class="lcard-label">${item.l}</div>
@@ -235,7 +308,6 @@ function render() {
   });
 
   document.getElementById('stat-total').textContent = DATA.length;
-  document.getElementById('stat-cats').textContent = Object.keys(CATS).length;
 }
 
 function buildCats() {
