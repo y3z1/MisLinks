@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Links · Y.Adarme</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080f;--surface:#0f0f1a;--card:#131320;--card-h:#181828;
+  --border:rgba(255,255,255,0.07);--border-h:rgba(255,255,255,0.14);
+  --text:#e8e8f0;--muted:rgba(232,232,240,0.4);--dim:rgba(232,232,240,0.2);
+  --purple:#534AB7;--purple-l:#AFA9EC;--purple-bg:rgba(83,74,183,0.12);
+  --teal:#1D9E75;--teal-l:#5DCAA5;--teal-bg:rgba(29,158,117,0.12);
+  --pink:#993556;--pink-l:#ED93B1;--pink-bg:rgba(153,53,86,0.12);
+  --amber:#BA7517;--amber-l:#EF9F27;--amber-bg:rgba(186,117,23,0.12);
+  --blue:#185FA5;--blue-l:#85B7EB;--blue-bg:rgba(24,95,165,0.12);
+  --coral:#993C1D;--coral-l:#F0997B;--coral-bg:rgba(153,60,29,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── ORBS ── */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px)}
+.orb1{width:500px;height:500px;background:rgba(83,74,183,0.12);top:-150px;left:-100px}
+.orb2{width:400px;height:400px;background:rgba(29,158,117,0.09);top:200px;right:-120px}
+.orb3{width:350px;height:350px;background:rgba(153,53,86,0.07);bottom:50px;left:40%}
+
+/* ── LAYOUT ── */
+#app{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 24px 60px}
+
+/* ── HEADER ── */
+header{
+  display:flex;align-items:center;
+  padding:28px 0 24px;
+  border-bottom:0.5px solid var(--border);
+  flex-wrap:wrap;gap:12px;
+}
+.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text);flex:1}
+.logo span{color:var(--purple-l)}
+.header-count{
+  font-size:12px;color:var(--muted);
+  background:var(--card);border:0.5px solid var(--border);
+  padding:4px 12px;border-radius:20px;
+}
+#search{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:10px;padding:8px 14px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:13px;
+  width:230px;outline:none;transition:border-color .2s;
+}
+#search:focus{border-color:var(--purple)}
+#search::placeholder{color:var(--dim)}
+
+/* ── CATEGORY PILLS ── */
+.cats{display:flex;gap:6px;flex-wrap:wrap;padding:20px 0 4px}
+.cat-btn{
+  font-size:12px;padding:5px 14px;border-radius:20px;
+  border:0.5px solid var(--border);
+  background:transparent;color:var(--muted);
+  cursor:pointer;transition:all .18s;font-family:'Inter',sans-serif;
+}
+.cat-btn:hover{color:var(--text);border-color:var(--border-h);background:var(--card)}
+.cat-btn.active{color:var(--text);border-color:rgba(83,74,183,.5);background:var(--purple-bg)}
+
+/* ── SECTION ── */
+.section{margin-top:32px}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.section-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.04em;color:var(--text)}
+.section-n{font-size:11px;color:var(--dim);margin-left:2px}
+.section-line{flex:1;height:.5px;background:var(--border)}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+
+/* ── LINK CARD ── */
+.lcard{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:12px;padding:14px 14px 12px;
+  display:flex;flex-direction:column;gap:6px;
+  text-decoration:none;cursor:pointer;
+  transition:background .18s,border-color .18s,transform .18s;
+  position:relative;overflow:hidden;
+}
+.lcard::after{
+  content:'';position:absolute;left:0;top:12%;bottom:12%;
+  width:2px;border-radius:2px;
+  background:var(--cat-color,var(--purple));
+  opacity:0;transition:opacity .2s;
+}
+.lcard:hover{background:var(--card-h);border-color:var(--border-h);transform:translateY(-2px)}
+.lcard:hover::after{opacity:.55}
+.lcard-label{font-size:13px;font-weight:500;color:var(--text);line-height:1.35}
+.lcard-meta{display:flex;align-items:center;gap:6px}
+.lcard-platform{
+  font-size:9px;font-weight:700;letter-spacing:.04em;
+  padding:2px 6px;border-radius:4px;flex-shrink:0;
+}
+.lcard-year{font-size:10px;color:var(--dim);margin-left:auto}
+.lcard-year.yr-new{
+  background:var(--purple-bg);color:var(--purple-l);
+  padding:1px 6px;border-radius:4px;font-weight:500;
+}
+.lcard-del{
+  position:absolute;top:8px;right:8px;
+  width:20px;height:20px;border-radius:6px;
+  background:rgba(227,75,74,.15);border:none;
+  color:rgba(227,75,74,.5);font-size:13px;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.lcard:hover .lcard-del{display:flex}
+.lcard-del:hover{background:rgba(227,75,74,.3);color:#E24B4A}
+
+/* ── ADD FORM ── */
+.add-section{
+  margin-top:36px;
+  border:0.5px dashed var(--border-h);
+  border-radius:14px;padding:20px;
+}
+.add-title{font-size:12px;color:var(--dim);margin-bottom:14px;letter-spacing:.05em}
+.add-row{display:flex;gap:8px;flex-wrap:wrap}
+.add-row input,.add-row select{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:8px;padding:8px 12px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:13px;
+  outline:none;transition:border-color .2s;
+}
+.add-row input:focus,.add-row select:focus{border-color:var(--purple)}
+.add-row input::placeholder{color:var(--dim)}
+.add-row input.invalid{border-color:rgba(227,75,74,.6)!important;background:rgba(227,75,74,.04)}
+#add-label{flex:1;min-width:140px}
+#add-url{flex:2;min-width:200px}
+#add-cat-sel{min-width:150px;cursor:pointer}
+#add-cat-sel option{background:#0f0f1a}
+.add-btn{
+  background:var(--purple);color:#EEEDFE;
+  border:none;border-radius:8px;padding:8px 20px;
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.add-btn:hover{background:#7F77DD;transform:translateY(-1px)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:60px 0;color:var(--dim)}
+.empty-icon{font-size:38px;margin-bottom:12px;opacity:.4}
+.empty-text{font-size:14px}
+.empty-sub{font-size:12px;margin-top:6px;opacity:.6}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  color:#fff;font-size:13px;padding:10px 16px;border-radius:10px;
+  opacity:0;transform:translateY(8px);
+  transition:all .25s;pointer-events:none;
+  display:flex;align-items:center;gap:12px;
+  background:var(--teal);
+}
+.toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.toast-undo{
+  background:rgba(255,255,255,.2);border:none;
+  color:#fff;font-size:12px;padding:3px 10px;border-radius:6px;
+  cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;
+  transition:background .15s;white-space:nowrap;
+}
+.toast-undo:hover{background:rgba(255,255,255,.35)}
+
+/* ── FOOTER ── */
+footer{
+  margin-top:48px;padding:16px 0;
+  border-top:.5px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--dim);
+}
+.footer-sep{opacity:.4}
+.footer-hint{margin-left:auto;display:flex;align-items:center;gap:5px}
+kbd{
+  background:var(--card);border:.5px solid var(--border-h);
+  border-radius:4px;padding:1px 5px;
+  font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  #search{width:100%}
+  header{flex-direction:column;align-items:flex-start}
+  .add-row{flex-direction:column}
+  .add-row input,.add-row select,.add-btn{width:100%}
+  .footer-hint{display:none}
+}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div id="app">
+  <header>
+    <div class="logo">Mis Links <span>·</span></div>
+    <div class="header-count" id="hcount">0 links</div>
+    <input id="search" type="text" placeholder="buscar...  ( / )" oninput="render()">
+  </header>
+
+  <div class="cats" id="cats"></div>
+  <div id="content"></div>
+
+  <div class="add-section">
+    <div class="add-title">AGREGAR LINK</div>
+    <div class="add-row">
+      <input id="add-label" type="text" placeholder="Nombre del link...">
+      <input id="add-url" type="url" placeholder="https://...">
+      <select id="add-cat-sel"></select>
+      <button class="add-btn" onclick="addLink()">+ Agregar</button>
+    </div>
+  </div>
+
+  <footer>
+    <span id="footer-total">0 links guardados</span>
+    <span class="footer-sep">·</span>
+    <div class="footer-hint">
+      <kbd>/</kbd> buscar
+      <span class="footer-sep">·</span>
+      <kbd>Esc</kbd> limpiar
+      <span class="footer-sep">·</span>
+      <kbd>Enter</kbd> agregar
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast">
+  <span id="toast-msg">Link guardado</span>
+  <button class="toast-undo" id="toast-undo" onclick="undoDelete()" style="display:none">Deshacer</button>
+</div>
+
+<script>
+const CATS = {
+  "IA & Claude":    {color:"#7F77DD",bg:"rgba(83,74,183,.12)"},
+  "Excel & Datos":  {color:"#5DCAA5",bg:"rgba(29,158,117,.12)"},
+  "Ejercicio":      {color:"#ED93B1",bg:"rgba(153,53,86,.12)"},
+  "Cocina":         {color:"#EF9F27",bg:"rgba(186,117,23,.12)"},
+  "Diseño & Foto":  {color:"#ED93B1",bg:"rgba(212,83,126,.12)"},
+  "Tech":           {color:"#85B7EB",bg:"rgba(24,95,165,.12)"},
+  "Manualidades":   {color:"#F0997B",bg:"rgba(153,60,29,.12)"},
+  "Entretenimiento":{color:"#AFA9EC",bg:"rgba(83,74,183,.1)"},
+  "Otros":          {color:"#888780",bg:"rgba(136,135,128,.1)"},
+};
+
+const PLATFORM_ABBR = {
+  facebook:'FB', instagram:'IG', youtube:'YT',
+  tiktok:'TK', reddit:'RD', amazon:'AMZ',
+  apple:'APP', goo:'MAP', tunefind:'WEB',
+  formulabot:'BOT', digitalsynopsis:'WEB', ipadizate:'WEB',
+};
+const PLATFORM_COLOR = {
+  facebook:'#85B7EB', instagram:'#ED93B1', youtube:'#F0997B',
+  tiktok:'#AFA9EC', reddit:'#EF9F27', amazon:'#EF9F27',
+  apple:'#A8A8A8', goo:'#5DCAA5', tunefind:'#AFA9EC',
+  formulabot:'#5DCAA5', digitalsynopsis:'#85B7EB', ipadizate:'#85B7EB',
+};
+
+const SEED = [
+  {l:"Claude + Nano Banana",u:"https://www.facebook.com/share/1G3SXaWhTv/",c:"IA & Claude",y:"2026"},
+  {l:"Using LLM",u:"https://www.facebook.com/share/17GttVCpKB/",c:"IA & Claude",y:"2026"},
+  {l:"Best AI (reel)",u:"https://www.instagram.com/reel/DWWtpWpDPRD/",c:"IA & Claude",y:"2026"},
+  {l:"AI Studio",u:"https://www.facebook.com/share/v/1AeG46Zboi/",c:"IA & Claude",y:"2026"},
+  {l:"Skills Claude",u:"https://www.facebook.com/share/r/1BcrXuREmM/",c:"IA & Claude",y:"2026"},
+  {l:"Ahorrar tokens",u:"https://www.facebook.com/share/r/1CP8XHHM6p/",c:"IA & Claude",y:"2026"},
+  {l:"Save tokens",u:"https://www.facebook.com/share/r/1Y1Sooqh9r/",c:"IA & Claude",y:"2026"},
+  {l:"Claude Design",u:"https://www.facebook.com/share/r/1ENfUN2WXh/",c:"IA & Claude",y:"2026"},
+  {l:"Seguridad Claude",u:"https://www.facebook.com/share/r/1JGSKdmx8R/",c:"IA & Claude",y:"2026"},
+  {l:"Jarvis AI",u:"https://www.facebook.com/share/r/17D3qMNoaY/",c:"IA & Claude",y:"2026"},
+  {l:"Notebook LM",u:"https://www.facebook.com/share/1CvpJR56zw/",c:"IA & Claude",y:"2026"},
+  {l:"How to use Claude",u:"https://www.facebook.com/share/p/1DZYegK8E9/",c:"IA & Claude",y:"2026"},
+  {l:"Comparador vuelos Claude",u:"https://www.facebook.com/share/v/1Fn9Y113bT/",c:"IA & Claude",y:"2026"},
+  {l:"Awesome design.md",u:"https://www.facebook.com/share/r/17kyyNt56a/",c:"IA & Claude",y:"2026"},
+  {l:"AI Tools",u:"https://www.facebook.com/share/r/wSLJtrjidqkcgCNZ/",c:"IA & Claude",y:"2024"},
+  {l:"Hugging AI",u:"https://www.instagram.com/reel/C_C9wn5yoEo/",c:"IA & Claude",y:"2024"},
+  {l:"Crear sitios con n8n",u:"https://www.facebook.com/share/r/1Rm7jGr5az/",c:"IA & Claude",y:"2025"},
+  {l:"AI Data Análisis",u:"https://www.facebook.com/share/r/1FF33VCQjU/",c:"IA & Claude",y:"2025"},
+  {l:"IA Vídeos",u:"https://www.facebook.com/share/r/1HDkFPbxN2/",c:"IA & Claude",y:"2024"},
+  {l:"Ideas 2 App IA",u:"https://www.facebook.com/share/r/3aD8rWDGpFi4VpaM/",c:"IA & Claude",y:"2024"},
+
+  {l:"Claude Power BI (1)",u:"https://youtu.be/9fkKtSiviFg",c:"Excel & Datos",y:"2026"},
+  {l:"Claude Power BI (2)",u:"https://youtu.be/wgSsf7yW6Xg",c:"Excel & Datos",y:"2026"},
+  {l:"Paso a paso Claude Power BI",u:"https://youtu.be/Y6MnJLI52L4",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso (1)",u:"https://www.facebook.com/share/r/1CcokjsCUK/",c:"Excel & Datos",y:"2026"},
+  {l:"Barra de progreso (2)",u:"https://www.facebook.com/share/v/1ExAUbaZCi/",c:"Excel & Datos",y:"2026"},
+  {l:"XLOOKUP multiple values",u:"https://www.facebook.com/share/r/1AxscdjFtd/",c:"Excel & Datos",y:"2026"},
+  {l:"Cambio entre hojas Excel",u:"https://www.facebook.com/share/v/1BQw68Uxgt/",c:"Excel & Datos",y:"2026"},
+  {l:"Stock tracker",u:"https://www.facebook.com/share/r/1JoaZbcD4E/",c:"Excel & Datos",y:"2026"},
+  {l:"AI Excel",u:"https://www.facebook.com/share/r/1MpFifycir/",c:"Excel & Datos",y:"2024"},
+  {l:"Calendario Excel",u:"https://www.facebook.com/share/r/D2Ffmq7PLD1qDm7d/",c:"Excel & Datos",y:"2024"},
+  {l:"Recordatorios en Excel",u:"https://www.facebook.com/share/r/15PkGzdcbF/",c:"Excel & Datos",y:"2024"},
+  {l:"Lista validada dinámica",u:"https://www.facebook.com/share/r/1GBaaw5aG2/",c:"Excel & Datos",y:"2024"},
+  {l:"Filtro por mes resumen",u:"https://www.facebook.com/share/r/15UoqsTdPL/",c:"Excel & Datos",y:"2024"},
+  {l:"Formato condicional auto",u:"https://www.facebook.com/share/r/15om5ramXB/",c:"Excel & Datos",y:"2024"},
+  {l:"Cuadro de búsqueda Excel",u:"https://www.facebook.com/share/r/1GjupfeF57/",c:"Excel & Datos",y:"2024"},
+  {l:"Tareas completadas",u:"https://www.facebook.com/share/r/18jomHBYws/",c:"Excel & Datos",y:"2024"},
+  {l:"Analizar datos Excel",u:"https://www.facebook.com/share/r/18BHyN3u9i/",c:"Excel & Datos",y:"2024"},
+  {l:"Porcentajes en colores",u:"https://www.facebook.com/share/r/1Au1z3evNC/",c:"Excel & Datos",y:"2024"},
+  {l:"Tabla súper dinámica",u:"https://www.facebook.com/share/r/1XwrS5M4xp/",c:"Excel & Datos",y:"2024"},
+  {l:"Cuadro búsqueda v2",u:"https://www.facebook.com/share/v/1PYEQXp4P4/",c:"Excel & Datos",y:"2024"},
+  {l:"Menú deslizante colores",u:"https://www.facebook.com/share/r/1S2STR9hf2/",c:"Excel & Datos",y:"2024"},
+  {l:"Dynamic dropdown",u:"https://www.facebook.com/share/r/1FVVFEiFGh/",c:"Excel & Datos",y:"2024"},
+  {l:"Checklist colores",u:"https://www.facebook.com/share/r/1EvZoY7MVQ/",c:"Excel & Datos",y:"2024"},
+  {l:"Entrada datos con macro",u:"https://www.facebook.com/share/v/15hHasN573/",c:"Excel & Datos",y:"2024"},
+  {l:"VLOOKUP vs XLOOKUP",u:"https://www.facebook.com/share/v/12HD2XCULoe/",c:"Excel & Datos",y:"2024"},
+  {l:"Búsqueda base de datos",u:"https://www.facebook.com/share/r/185TGRtJWw/",c:"Excel & Datos",y:"2024"},
+  {l:"Esenciales de Excel",u:"https://www.facebook.com/share/r/1Bbeiemwqq/",c:"Excel & Datos",y:"2024"},
+  {l:"Fórmulas básicas Excel",u:"https://www.facebook.com/share/v/14dwDAdrSj/",c:"Excel & Datos",y:"2024"},
+  {l:"To do list con check",u:"https://www.facebook.com/share/r/1LMsuExHT2/",c:"Excel & Datos",y:"2024"},
+  {l:"Insertar fecha calendario",u:"https://www.facebook.com/share/r/14c3F3tKL8/",c:"Excel & Datos",y:"2024"},
+  {l:"Excel shortcuts",u:"https://www.facebook.com/share/r/1B4nvXAAS8/",c:"Excel & Datos",y:"2024"},
+  {l:"Días de vencimiento",u:"https://www.facebook.com/share/r/15WjHD7zGr/",c:"Excel & Datos",y:"2025"},
+  {l:"Bordes automáticos",u:"https://www.facebook.com/share/r/15nYm7Gt4t/",c:"Excel & Datos",y:"2025"},
+  {l:"Crear barcode Excel",u:"https://www.facebook.com/share/r/14pNeCmzuyS/",c:"Excel & Datos",y:"2025"},
+  {l:"Generar QR Excel",u:"https://www.facebook.com/share/r/1BE7V9ikpL/",c:"Excel & Datos",y:"2025"},
+  {l:"Insertar imagen Excel",u:"https://www.facebook.com/share/r/14sqy32YpR/",c:"Excel & Datos",y:"2025"},
+  {l:"Insertar PDF en Excel",u:"https://www.facebook.com/share/r/15eAPEKurU/",c:"Excel & Datos",y:"2025"},
+  {l:"Resaltar fila activa",u:"https://www.facebook.com/share/r/1Awk1zPkJT/",c:"Excel & Datos",y:"2025"},
+  {l:"Cuadro búsqueda avanzado",u:"https://www.facebook.com/share/r/19tZC4GUgE/",c:"Excel & Datos",y:"2025"},
+  {l:"Calendario dinámico",u:"https://www.facebook.com/share/r/15Vzcaca3E/",c:"Excel & Datos",y:"2025"},
+  {l:"Stocktake Excel",u:"https://www.facebook.com/share/r/19HbbrpD9c/",c:"Excel & Datos",y:"2025"},
+  {l:"Facturas pagadas",u:"https://www.facebook.com/share/r/1A92P6wGZf/",c:"Excel & Datos",y:"2025"},
+  {l:"Control actividades progreso",u:"https://www.facebook.com/share/v/14EwvRXv1Be/",c:"Excel & Datos",y:"2025"},
+  {l:"QR en Excel",u:"https://www.facebook.com/share/v/178yL8ShuR/",c:"Excel & Datos",y:"2025"},
+  {l:"Dashboard Ventas",u:"https://www.facebook.com/share/r/1FhgPj6Pc2/",c:"Excel & Datos",y:"2025"},
+  {l:"Automatizar recibos",u:"https://www.facebook.com/share/r/18qbZ667Px/",c:"Excel & Datos",y:"2025"},
+  {l:"Seguimiento de proyectos",u:"https://www.facebook.com/share/r/1EqRR9XY3r/",c:"Excel & Datos",y:"2025"},
+  {l:"Inventario fácil",u:"https://www.facebook.com/share/r/1AsyBxjhb4/",c:"Excel & Datos",y:"2025"},
+  {l:"Control actividades barra",u:"https://www.facebook.com/share/v/14EwvRXv1Be/",c:"Excel & Datos",y:"2025"},
+  {l:"app.formulabot.com",u:"https://app.formulabot.com",c:"Excel & Datos",y:"2024"},
+
+  {l:"Lower back pain",u:"https://www.facebook.com/share/r/1HaNZc8pnY/",c:"Ejercicio",y:"2026"},
+  {l:"Isquios",u:"https://www.facebook.com/share/r/1Nvk5HoEAt/",c:"Ejercicio",y:"2026"},
+  {l:"Trucos dedos",u:"https://www.facebook.com/share/r/1CvJF4Shci/",c:"Ejercicio",y:"2026"},
+  {l:"Pull ups",u:"https://www.facebook.com/share/r/JpFHoDTz36fWPaTj/",c:"Ejercicio",y:"2024"},
+  {l:"Estiramientos",u:"https://www.facebook.com/share/r/VybeALu4zRCKinj5/",c:"Ejercicio",y:"2024"},
+  {l:"Chairxercise",u:"https://www.facebook.com/share/r/6Y4vEBEaZnw3qhkw/",c:"Ejercicio",y:"2024"},
+  {l:"Muscle Wiki",u:"https://www.facebook.com/share/r/iPqkDgW28ZnQpsoG/",c:"Ejercicio",y:"2024"},
+  {l:"Ajustar posición ejercicios",u:"https://www.facebook.com/share/r/15US8YaWGU/",c:"Ejercicio",y:"2024"},
+  {l:"Rutina Lower back",u:"https://www.facebook.com/share/r/1FkR287AhK/",c:"Ejercicio",y:"2025"},
+  {l:"Estirar espalda",u:"https://www.facebook.com/share/r/19qqLQZu3q/",c:"Ejercicio",y:"2025"},
+  {l:"Estiramientos diarios",u:"https://www.facebook.com/share/r/1DAVjJzLar/",c:"Ejercicio",y:"2025"},
+  {l:"Manguito rotador",u:"https://www.facebook.com/share/r/1E1EV92agZ/",c:"Ejercicio",y:"2025"},
+  {l:"Yoga espalda baja",u:"https://www.facebook.com/share/r/1Hpz7K69qV/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicios en ayunas",u:"https://www.facebook.com/share/r/1BWJZsU9mJ/",c:"Ejercicio",y:"2025"},
+  {l:"Calentamiento",u:"https://www.facebook.com/share/v/1AiBdTxC8q/",c:"Ejercicio",y:"2025"},
+  {l:"Rutina brazos",u:"https://www.facebook.com/share/r/19Nmaa87x7/",c:"Ejercicio",y:"2025"},
+  {l:"Activación muscular",u:"https://www.facebook.com/share/r/1KTGRLuEZ6/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicios flexibilidad",u:"https://www.facebook.com/share/r/1aCdxCV5xz/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicios pecho",u:"https://www.facebook.com/share/r/177EB1qx4i/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicio manguito rotador",u:"https://www.facebook.com/share/r/1GGYTMEVer/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicios faciales",u:"https://www.facebook.com/share/r/1CsDuHqw4M/",c:"Ejercicio",y:"2025"},
+  {l:"Stay Flexi",u:"https://www.facebook.com/share/r/1LjKE4KbiW/",c:"Ejercicio",y:"2025"},
+  {l:"Manguito toalla",u:"https://www.facebook.com/share/r/16hgAuaETB/",c:"Ejercicio",y:"2025"},
+  {l:"Rutina manguito",u:"https://www.facebook.com/share/v/1AcUemsu2a/",c:"Ejercicio",y:"2025"},
+  {l:"Antes de dormir",u:"https://www.instagram.com/reel/DNGsKMEsgps/",c:"Ejercicio",y:"2025"},
+  {l:"Recuperar flexibilidad",u:"https://www.facebook.com/share/r/16wXFS1ab4/",c:"Ejercicio",y:"2025"},
+  {l:"Yoga mañana",u:"https://www.facebook.com/share/r/19Ro1RobSv/",c:"Ejercicio",y:"2025"},
+  {l:"Aliviar manguito",u:"https://www.facebook.com/share/r/1Y5RYZQ8hS/",c:"Ejercicio",y:"2025"},
+  {l:"Ejercicio panza",u:"https://www.facebook.com/share/r/173PGZgkaG/",c:"Ejercicio",y:"2025"},
+  {l:"Morning routine",u:"https://www.facebook.com/share/r/1G1Qwp6MDh/",c:"Ejercicio",y:"2025"},
+  {l:"Rutina matinal",u:"https://www.facebook.com/share/r/1G5aXyzZ9e/",c:"Ejercicio",y:"2026"},
+  {l:"Estirar",u:"https://www.facebook.com/share/r/1DrRf7dKFd/",c:"Ejercicio",y:"2026"},
+
+  {l:"Despiezar pollo",u:"https://www.facebook.com/share/r/LvQN6vUM8FaNt3De/",c:"Cocina",y:"2024"},
+  {l:"Nuggets McDonald's",u:"https://www.facebook.com/share/r/TXR2KZULFysCqCLx/",c:"Cocina",y:"2024"},
+  {l:"Salsa Chick-fil-a",u:"https://www.facebook.com/share/r/wj3AyGXujrraMT1S/",c:"Cocina",y:"2024"},
+  {l:"Cebolla encurtida",u:"https://www.facebook.com/share/r/xKxGi4JGWNywxSRp/",c:"Cocina",y:"2024"},
+  {l:"Bizcocho esponjoso",u:"https://www.facebook.com/share/r/aqSuKur2yZ5Lpcm9/",c:"Cocina",y:"2024"},
+  {l:"Empanadas",u:"https://www.facebook.com/share/r/QJmmRbWxnrzkkdU2/",c:"Cocina",y:"2024"},
+  {l:"Gnocchi",u:"https://www.facebook.com/share/r/cCKLNiwnWV1sLe9m/",c:"Cocina",y:"2024"},
+  {l:"Churros",u:"https://www.facebook.com/share/r/Y7TAmMxYdG43yPGc/",c:"Cocina",y:"2024"},
+  {l:"Milhojas",u:"https://www.facebook.com/share/r/2vJGLNQ9sC78htCb/",c:"Cocina",y:"2024"},
+  {l:"Lechona olla presión",u:"https://www.facebook.com/share/r/RYGhd3Jp8vLyNSj1/",c:"Cocina",y:"2024"},
+  {l:"Perfect Sandwich",u:"https://www.facebook.com/share/r/YEnjNjZKy1YBXbQC/",c:"Cocina",y:"2024"},
+  {l:"NY Food",u:"https://www.facebook.com/share/r/PkjfsxNZHJk4HXqw/",c:"Cocina",y:"2024"},
+  {l:"Best Sándwich",u:"https://www.facebook.com/share/r/L2ThCVftNsYoJAzM/",c:"Cocina",y:"2024"},
+  {l:"Perfect Pizza",u:"https://www.facebook.com/share/r/hMAZTtbTuCnUmMYb/",c:"Cocina",y:"2024"},
+  {l:"Kitchen hacks",u:"https://www.facebook.com/share/r/15U8yuyoPA/",c:"Cocina",y:"2024"},
+  {l:"Nuggets v2",u:"https://www.facebook.com/reel/1059085232443188",c:"Cocina",y:"2024"},
+  {l:"Chocorramo",u:"https://www.facebook.com/share/v/vGa6wnLCnfWpBdSr/",c:"Cocina",y:"2024"},
+  {l:"Pan de queijo",u:"https://www.facebook.com/share/r/15qSHyfRND/",c:"Cocina",y:"2025"},
+  {l:"Pollo asadero",u:"https://www.facebook.com/share/r/1AZAEDdfnJ/",c:"Cocina",y:"2025"},
+  {l:"Piquillo con chicharrón",u:"https://www.facebook.com/share/r/16VmaViwbx/",c:"Cocina",y:"2025"},
+  {l:"Pan casero",u:"https://www.facebook.com/share/v/1AwC2i83Xd/",c:"Cocina",y:"2025"},
+  {l:"Cóctel de camarones",u:"https://www.facebook.com/share/r/169QuFrV9T/",c:"Cocina",y:"2025"},
+  {l:"Lechona express",u:"https://www.facebook.com/share/v/18fdn3mGSP/",c:"Cocina",y:"2025"},
+  {l:"Puré de papa",u:"https://www.facebook.com/share/r/173CncBixr/",c:"Cocina",y:"2025"},
+  {l:"Pannettone",u:"https://www.facebook.com/share/v/17CGC7Wpme/",c:"Cocina",y:"2025"},
+  {l:"Pan trenzado",u:"https://www.facebook.com/share/v/1FKLvL6e5F/",c:"Cocina",y:"2025"},
+  {l:"Shawarma",u:"https://www.facebook.com/share/r/16faXP1xqQ/",c:"Cocina",y:"2025"},
+  {l:"Pancakes",u:"https://www.facebook.com/share/r/19Aaxjhxjz/",c:"Cocina",y:"2025"},
+  {l:"Sandwich cubano",u:"https://www.facebook.com/share/r/19MS1GywBe/",c:"Cocina",y:"2025"},
+  {l:"Tequeños",u:"https://www.facebook.com/share/r/1Bz9Go34EG/",c:"Cocina",y:"2025"},
+  {l:"Avena fría",u:"https://www.facebook.com/share/r/16seQ3HLrN/",c:"Cocina",y:"2025"},
+  {l:"Empanadas hojaldre",u:"https://www.facebook.com/share/r/12JtDaZMMBu/",c:"Cocina",y:"2024"},
+  {l:"Pabellón",u:"https://www.facebook.com/share/r/qGU2Y1T5sXRCwt1S/",c:"Cocina",y:"2024"},
+  {l:"Sabajon",u:"https://www.facebook.com/reel/1231923521437769",c:"Cocina",y:"2024"},
+  {l:"Napolitanas jamón queso",u:"https://www.facebook.com/share/r/15SkjE3ENN/",c:"Cocina",y:"2025"},
+  {l:"Pancitos rellenos",u:"https://www.facebook.com/share/v/19t3SsZ6nk/",c:"Cocina",y:"2025"},
+  {l:"Empanadas de maíz pira",u:"https://www.facebook.com/share/r/1EfxV7SRey/",c:"Cocina",y:"2025"},
+  {l:"Perfect Pizza v2",u:"https://www.facebook.com/share/v/1ABVKNk147/",c:"Cocina",y:"2025"},
+
+  {l:"Web design",u:"https://www.facebook.com/share/r/1BDAkkpEgJ/",c:"Diseño & Foto",y:"2026"},
+  {l:"Menú interactivo",u:"https://www.facebook.com/share/r/1DqeGH8XG1/",c:"Diseño & Foto",y:"2026"},
+  {l:"Hyperframes",u:"https://www.facebook.com/share/r/17S5ScExQG/",c:"Diseño & Foto",y:"2026"},
+  {l:"Copy Websites",u:"https://www.facebook.com/share/r/1BJxzy7jH7/",c:"Diseño & Foto",y:"2026"},
+  {l:"Directorio Websites",u:"https://www.facebook.com/share/r/1CU8t66b3p/",c:"Diseño & Foto",y:"2026"},
+  {l:"Reverse Github",u:"https://www.facebook.com/share/r/1KG8Ahp4YQ/",c:"Diseño & Foto",y:"2026"},
+  {l:"Websites chimbisimas",u:"https://www.facebook.com/share/r/1CDCgHPGRd/",c:"Diseño & Foto",y:"2026"},
+  {l:"Logo fonts",u:"https://digitalsynopsis.com/design/logo-fonts/",c:"Diseño & Foto",y:"2024"},
+  {l:"Combinación de colores",u:"https://www.facebook.com/share/r/1EGhg8NspN/",c:"Diseño & Foto",y:"2024"},
+  {l:"Logos y sus fuentes",u:"https://www.facebook.com/share/r/14mEAZery6/",c:"Diseño & Foto",y:"2024"},
+  {l:"Fondo dentro de letra",u:"https://www.facebook.com/share/r/14d6awK8kJ/",c:"Diseño & Foto",y:"2024"},
+  {l:"Editar fotos contraluz",u:"https://www.facebook.com/share/r/RD96rJDSGci3XpPq/",c:"Diseño & Foto",y:"2024"},
+  {l:"Fotos atardecer",u:"https://www.facebook.com/share/r/5ZfTDBumi5zrNukh/",c:"Diseño & Foto",y:"2024"},
+  {l:"Video cámara rápida",u:"https://www.facebook.com/share/r/pn4wvkreiBjmy3pk/",c:"Diseño & Foto",y:"2024"},
+  {l:"Fotos larga exposición",u:"https://www.facebook.com/share/r/18NdCDnUDw/",c:"Diseño & Foto",y:"2024"},
+  {l:"Ajustes para fotos",u:"https://www.facebook.com/share/r/1EKJ9QwkMc/",c:"Diseño & Foto",y:"2024"},
+  {l:"NY Street Photo",u:"https://www.facebook.com/share/r/onzyh87TfyeuESaw/",c:"Diseño & Foto",y:"2024"},
+  {l:"Cool photo trick",u:"https://www.facebook.com/share/r/15NRFT4q3A/",c:"Diseño & Foto",y:"2024"},
+  {l:"Tips fotos iPhone",u:"https://www.facebook.com/share/r/18DDMdoNb1/",c:"Diseño & Foto",y:"2024"},
+  {l:"Mejorar fotos contraluz",u:"https://www.facebook.com/share/r/1F9gBooYcY/",c:"Diseño & Foto",y:"2024"},
+  {l:"Fotos de noche",u:"https://www.facebook.com/share/r/1BEqMdtreQ/",c:"Diseño & Foto",y:"2024"},
+  {l:"Foto modo retrato",u:"https://www.facebook.com/share/r/1B8GhK4Wv3/",c:"Diseño & Foto",y:"2025"},
+  {l:"Portrait B&W",u:"https://www.facebook.com/share/r/1Fo4ZqXiqM/",c:"Diseño & Foto",y:"2025"},
+  {l:"Restaurar fotos",u:"https://www.facebook.com/share/r/17MG1mG4qV/",c:"Diseño & Foto",y:"2025"},
+  {l:"Construir website",u:"https://www.facebook.com/share/r/19qmfJU47o/",c:"Diseño & Foto",y:"2025"},
+  {l:"CV Código",u:"https://www.facebook.com/share/r/1Mdztd7hW3/",c:"Diseño & Foto",y:"2025"},
+  {l:"Website to infographic",u:"https://www.facebook.com/share/r/1AuDpPcHxn/",c:"Diseño & Foto",y:"2025"},
+  {l:"Colorear negativos",u:"https://www.facebook.com/share/r/12JcPZiStwu/",c:"Diseño & Foto",y:"2024"},
+
+  {l:"Windows Commands",u:"https://www.facebook.com/share/r/rrmZPPG9mxEfKRVA/",c:"Tech",y:"2024"},
+  {l:"Windows tricks",u:"https://www.facebook.com/share/r/XnQzgjWkAthRULhQ/",c:"Tech",y:"2024"},
+  {l:"Windows 11 PC vieja",u:"https://www.facebook.com/share/r/WRzDxumdgxFR5P3Z/",c:"Tech",y:"2024"},
+  {l:"Ampliar RAM",u:"https://www.facebook.com/share/r/DhejiFQBqXThyPEa/",c:"Tech",y:"2024"},
+  {l:"Phone tricks",u:"https://www.facebook.com/share/r/WzVeq6sSk9BxcA8a/",c:"Tech",y:"2024"},
+  {l:"Bloquear apps",u:"https://www.facebook.com/share/r/P8uAvn5yDDCrRQKK/",c:"Tech",y:"2024"},
+  {l:"Comprobar batería portátil",u:"https://www.facebook.com/share/r/rnTuJgYvxNRodRJy/",c:"Tech",y:"2024"},
+  {l:"Extensiones Chrome",u:"https://www.facebook.com/share/r/18Tokx3nUU/",c:"Tech",y:"2025"},
+  {l:"Resumir videos YouTube",u:"https://www.instagram.com/reel/C_GjngHRawF/",c:"Tech",y:"2024"},
+  {l:"AR Code Capture",u:"https://www.facebook.com/share/r/15KB3ufwit/",c:"Tech",y:"2024"},
+  {l:"Widget iPhone",u:"https://www.facebook.com/share/r/2jfcFnwGsQFixCYa/",c:"Tech",y:"2024"},
+  {l:"Mecanografía",u:"https://www.facebook.com/share/r/1GipSHwXfu/",c:"Tech",y:"2024"},
+  {l:"Free courses",u:"https://www.facebook.com/share/r/15UHPx9zuf/",c:"Tech",y:"2025"},
+  {l:"Plantin - Plant ID",u:"https://apps.apple.com/es/app/plantin-plant-identifier/id1527399597",c:"Tech",y:"2021"},
+  {l:"Clockology Apple Watch",u:"https://ipadizate.com/apple-watch/clockology-la-app-para-tener-cualquier-esfera-en-el-apple-watch",c:"Tech",y:"2021"},
+
+  {l:"Nudos",u:"https://www.facebook.com/share/v/qGJKr5VrC8qRZ28x/",c:"Manualidades",y:"2024"},
+  {l:"Nudo de corbata fácil",u:"https://www.facebook.com/share/r/nDP7tmQGTeJFNySW/",c:"Manualidades",y:"2024"},
+  {l:"Avión de papel - pájaro",u:"https://www.facebook.com/share/r/88hpYwrnxubvV8rK/",c:"Manualidades",y:"2024"},
+  {l:"Frisbee de papel",u:"https://www.facebook.com/share/r/p8gBSder9Jkutbct/",c:"Manualidades",y:"2024"},
+  {l:"F16 de papel",u:"https://www.facebook.com/share/r/5QaGVqUmQmUsYgjn/",c:"Manualidades",y:"2024"},
+  {l:"Paper Basket",u:"https://www.facebook.com/share/r/kHAAK7DJYG6qpYYZ/",c:"Manualidades",y:"2024"},
+  {l:"Pulseras",u:"https://www.facebook.com/share/r/15Uj63ZfzV/",c:"Manualidades",y:"2024"},
+  {l:"Doblar ropa",u:"https://www.facebook.com/share/r/15WK9HnH76/",c:"Manualidades",y:"2024"},
+  {l:"Costura",u:"https://www.facebook.com/share/r/BGM2bSM9kSTts8zv/",c:"Manualidades",y:"2024"},
+  {l:"Colgar maceta",u:"https://www.facebook.com/share/r/Hiw13sq2xsfyp6EJ/",c:"Manualidades",y:"2024"},
+  {l:"Atar cordones",u:"https://www.facebook.com/share/r/19Xq7KPsaS/",c:"Manualidades",y:"2024"},
+  {l:"Candy bubbles",u:"https://www.facebook.com/share/r/4hYetXQY3Eo7QQii/",c:"Manualidades",y:"2024"},
+  {l:"Helicóptero globo",u:"https://www.instagram.com/reel/C9S5I5lR1nj/",c:"Manualidades",y:"2024"},
+  {l:"Avión de papel",u:"https://www.facebook.com/share/r/1BAoRADpJZ/",c:"Manualidades",y:"2025"},
+
+  {l:"5 TED Talks",u:"https://www.facebook.com/share/r/ZM9V5ZWL9aMEdZxT/",c:"Entretenimiento",y:"2024"},
+  {l:"7 TED Talks",u:"https://www.facebook.com/share/r/bGGX27oqdv3Q5M8M/",c:"Entretenimiento",y:"2024"},
+  {l:"Books",u:"https://www.facebook.com/share/r/djPdHRYvt3hboy5X/",c:"Entretenimiento",y:"2024"},
+  {l:"Truco magia",u:"https://www.facebook.com/share/r/1Bj6J6czYg/",c:"Entretenimiento",y:"2025"},
+  {l:"Magia cartas",u:"https://www.facebook.com/share/v/1BGoemcVtu/",c:"Entretenimiento",y:"2025"},
+  {l:"Truco magia cartas liga",u:"https://www.facebook.com/share/r/15E9JbnSck/",c:"Entretenimiento",y:"2025"},
+  {l:"Efecto óptico animales",u:"https://www.facebook.com/share/v/QaDUF2Fkz2RyPD4U/",c:"Entretenimiento",y:"2024"},
+  {l:"Salsa moves",u:"https://www.facebook.com/share/r/12Bngo8xQ5V/",c:"Entretenimiento",y:"2024"},
+  {l:"Football skills",u:"https://www.facebook.com/share/r/14n7bvwTe6/",c:"Entretenimiento",y:"2024"},
+  {l:"Yanni o Laurel",u:"https://www.facebook.com/share/r/bUS8osAT9X8rEEtL/",c:"Entretenimiento",y:"2024"},
+  {l:"Dad Routine",u:"https://www.facebook.com/share/r/BgRHGi6eHjWGt8mQ/",c:"Entretenimiento",y:"2024"},
+  {l:"Juego niños",u:"https://www.instagram.com/reel/C9MBO-XuIzd/",c:"Entretenimiento",y:"2024"},
+  {l:"Interesting vids",u:"https://www.facebook.com/share/r/eHRmmkZ4EmmA8M3e/",c:"Entretenimiento",y:"2024"},
+  {l:"Doraemon Rhapsody",u:"https://www.facebook.com/share/r/pBuoBGrZ8PGGpzfq/",c:"Entretenimiento",y:"2024"},
+  {l:"MSN Messenger nostalgia",u:"https://www.facebook.com/share/r/x9LSXgXEmHCFi43E/",c:"Entretenimiento",y:"2024"},
+  {l:"Tunefind Bones",u:"https://www.tunefind.com/show/bones/season-1",c:"Entretenimiento",y:"2020"},
+
+  {l:"Páginas interesantes",u:"https://www.facebook.com/share/r/JQmXHVZfhM3GSHoD/",c:"Otros",y:"2024"},
+  {l:"Remote jobs",u:"https://www.facebook.com/share/r/AcdsRbq7pDyJqg8s/",c:"Otros",y:"2024"},
+  {l:"Fake email",u:"https://www.facebook.com/share/r/Xqy9RKCT1t1dmAdy/",c:"Otros",y:"2024"},
+  {l:"Quitar manchas",u:"https://www.facebook.com/share/r/14GDexMxkGF/",c:"Otros",y:"2025"},
+  {l:"Limpiar colchón",u:"https://www.facebook.com/share/r/166EHwXbqh/",c:"Otros",y:"2025"},
+  {l:"Canales YouTube",u:"https://www.facebook.com/share/r/15tgNJYmfo/",c:"Otros",y:"2025"},
+  {l:"Gorgs de la Febró",u:"https://goo.gl/maps/qjip14PfzoteaN7u5",c:"Otros",y:"2020"},
+  {l:"Sunset photo ideas",u:"https://www.facebook.com/share/r/wy4VqxE8NxgzXExd/",c:"Otros",y:"2024"},
+];
+
+const STORAGE_KEY = 'mislinks_v2';
+const CUR_YEAR = new Date().getFullYear().toString();
+
+function load() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return SEED.map((x,i) => ({...x, id: i+1}));
+}
+
+function save(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function safeUrl(u) {
+  try {
+    const url = new URL(u);
+    return (url.protocol === 'https:' || url.protocol === 'http:') ? esc(u) : '#';
+  } catch(e) { return '#'; }
+}
+
+let DATA = load();
+let activeCat = 'Todos';
+let deletedItem = null;
+let deleteTimer = null;
+
+function getDomain(url) {
+  try {
+    const h = new URL(url).hostname.replace('www.','');
+    if (h.includes('facebook') || h.includes('fb.watch')) return 'facebook';
+    if (h.includes('instagram')) return 'instagram';
+    if (h.includes('youtube') || h.includes('youtu.be')) return 'youtube';
+    if (h.includes('tiktok')) return 'tiktok';
+    if (h.includes('reddit')) return 'reddit';
+    if (h.includes('amazon') || h.includes('amzn')) return 'amazon';
+    if (h.includes('apps.apple') || h.includes('ipadizate')) return 'apple';
+    if (h.includes('goo.gl') || h.includes('maps.google')) return 'goo';
+    if (h.includes('tunefind')) return 'tunefind';
+    if (h.includes('formulabot')) return 'formulabot';
+    if (h.includes('digitalsynopsis')) return 'digitalsynopsis';
+    return h.split('.')[0];
+  } catch(e) { return 'link'; }
+}
+
+function getPlatformBadge(domain) {
+  const abbr = PLATFORM_ABBR[domain] || domain.slice(0,3).toUpperCase();
+  const color = PLATFORM_COLOR[domain] || '#5F5E5A';
+  return {abbr, color};
+}
+
+function filtered() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  return DATA.filter(d => {
+    const catOk = activeCat === 'Todos' || d.c === activeCat;
+    const qOk = !q || d.l.toLowerCase().includes(q) || d.c.toLowerCase().includes(q) || (d.u||'').toLowerCase().includes(q);
+    return catOk && qOk;
+  });
+}
+
+function buildCats() {
+  const el = document.getElementById('cats');
+  const all = ['Todos', ...Object.keys(CATS)];
+  el.innerHTML = all.map(c => {
+    const cnt = c === 'Todos' ? DATA.length : DATA.filter(d=>d.c===c).length;
+    return `<button class="cat-btn${c===activeCat?' active':''}" onclick="setCat('${c}')">${esc(c)} <span style="opacity:.4;font-size:10px">${cnt}</span></button>`;
+  }).join('');
+}
+
+function buildAddSelect() {
+  const sel = document.getElementById('add-cat-sel');
+  sel.innerHTML = '<option value="">— categoría —</option>' +
+    Object.keys(CATS).map(c=>`<option value="${c}">${esc(c)}</option>`).join('');
+}
+
+function setCat(c) { activeCat = c; buildCats(); render(); }
+
+function render() {
+  const data = filtered();
+  document.getElementById('hcount').textContent = data.length + ' links';
+  document.getElementById('footer-total').textContent = DATA.length + ' links guardados';
+
+  const content = document.getElementById('content');
+  if (!data.length) {
+    const q = document.getElementById('search').value.trim();
+    content.innerHTML = `<div class="empty">
+      <div class="empty-icon">${q ? '🔍' : '📭'}</div>
+      <div class="empty-text">${q ? 'Sin resultados para "'+esc(q)+'"' : 'Sin links en esta categoría'}</div>
+      <div class="empty-sub">${q ? 'Prueba con otra búsqueda o presiona Esc' : 'Agrega uno en el formulario de abajo'}</div>
+    </div>`;
+    return;
+  }
+
+  const byCat = {};
+  data.forEach(d => { (byCat[d.c] = byCat[d.c] || []).push(d); });
+
+  content.innerHTML = Object.entries(byCat).map(([cat, items]) => {
+    const cfg = CATS[cat] || {color:'#888780',bg:'rgba(136,135,128,.1)'};
+    const cards = items.map(item => {
+      const dom = getDomain(item.u);
+      const {abbr, color: pColor} = getPlatformBadge(dom);
+      const isNew = item.y === CUR_YEAR;
+      return `<a class="lcard" href="${safeUrl(item.u)}" target="_blank" rel="noopener" style="--cat-color:${cfg.color}">
+        <div class="lcard-label">${esc(item.l)}</div>
+        <div class="lcard-meta">
+          <span class="lcard-platform" style="background:${pColor}22;color:${pColor}">${abbr}</span>
+          <div class="lcard-year${isNew?' yr-new':''}">${item.y}</div>
+        </div>
+        <button class="lcard-del" onclick="delLink(event,${item.id})" title="Eliminar">×</button>
+      </a>`;
+    }).join('');
+    return `<div class="section">
+      <div class="section-head">
+        <div class="section-dot" style="background:${cfg.color}"></div>
+        <div class="section-title">${esc(cat)}</div>
+        <div class="section-n">${items.length}</div>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">${cards}</div>
+    </div>`;
+  }).join('');
+
+  content.querySelectorAll('.lcard').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    const delay = Math.min(i, 30) * 12;
+    el.style.transition = `opacity .25s ${delay}ms, transform .25s ${delay}ms`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  });
+}
+
+function addLink() {
+  const labelEl = document.getElementById('add-label');
+  const urlEl   = document.getElementById('add-url');
+  const label = labelEl.value.trim();
+  let url = urlEl.value.trim();
+
+  if (url && !url.match(/^https?:\/\//)) url = 'https://' + url;
+
+  let valid = true;
+  labelEl.classList.toggle('invalid', !label);
+  urlEl.classList.toggle('invalid', !url || !url.match(/^https?:\/\/.+/));
+  if (!label || !url || !url.match(/^https?:\/\/.+/)) return;
+
+  const cat = document.getElementById('add-cat-sel').value || 'Otros';
+  DATA.unshift({l:label, u:url, c:cat, y:CUR_YEAR, id:Date.now()});
+  save(DATA);
+  labelEl.value = '';
+  urlEl.value = '';
+  labelEl.classList.remove('invalid');
+  urlEl.classList.remove('invalid');
+  buildCats();
+  render();
+  showToast('Link guardado ✓', false);
+}
+
+function delLink(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  if (deleteTimer) { clearTimeout(deleteTimer); deleteTimer = null; }
+  deletedItem = DATA.find(d => d.id === id);
+  DATA = DATA.filter(d => d.id !== id);
+  save(DATA);
+  buildCats();
+  render();
+  showToast('Link eliminado', true);
+  deleteTimer = setTimeout(() => { deletedItem = null; deleteTimer = null; }, 5000);
+}
+
+function undoDelete() {
+  if (!deletedItem) return;
+  clearTimeout(deleteTimer);
+  deleteTimer = null;
+  DATA.unshift(deletedItem);
+  deletedItem = null;
+  save(DATA);
+  buildCats();
+  render();
+  showToast('Recuperado ✓', false);
+}
+
+let toastTimer = null;
+function showToast(msg, showUndo) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  const undoEl = document.getElementById('toast-undo');
+  undoEl.style.display = showUndo ? 'block' : 'none';
+  t.style.background = showUndo ? 'rgba(140,50,30,.95)' : '';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), showUndo ? 4800 : 2200);
+}
+
+document.addEventListener('keydown', e => {
+  const active = document.activeElement;
+  const inInput = active.tagName === 'INPUT' || active.tagName === 'SELECT' || active.tagName === 'TEXTAREA';
+
+  if (e.key === '/' && !inInput) {
+    e.preventDefault();
+    document.getElementById('search').focus();
+    return;
+  }
+  if (e.key === 'Escape' && active.id === 'search') {
+    active.value = '';
+    render();
+    active.blur();
+    return;
+  }
+  if (e.key === 'Enter' && (active.id === 'add-label' || active.id === 'add-url')) {
+    addLink();
+  }
+});
+
+buildCats();
+buildAddSelect();
+render();
+</script>
+</body>
+</html>
