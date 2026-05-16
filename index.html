@@ -644,17 +644,54 @@ footer {
 /* ─── CONFIG ─── */
 const API = 'https://script.google.com/macros/s/AKfycbzJafMoyyDhwunnbLOxYkjExJFbSrU0mAeQ3XpSMJWUN6oXRVC2CabjxIzBQHzg0_s/exec';
 
-const CATS = {
-  "IA & Claude":     { c:'#5E5CE6', s:'rgba(94,92,230,0.14)',   l:'rgba(94,92,230,0.26)'   },
-  "Excel & Datos":   { c:'#30D158', s:'rgba(48,209,88,0.12)',   l:'rgba(48,209,88,0.24)'   },
-  "Ejercicio":       { c:'#FF375F', s:'rgba(255,55,95,0.12)',   l:'rgba(255,55,95,0.24)'   },
-  "Cocina":          { c:'#FF9F0A', s:'rgba(255,159,10,0.12)',  l:'rgba(255,159,10,0.24)'  },
-  "Diseño & Foto":   { c:'#0A84FF', s:'rgba(10,132,255,0.12)',  l:'rgba(10,132,255,0.24)'  },
-  "Tech":            { c:'#40CBE0', s:'rgba(64,203,224,0.12)',  l:'rgba(64,203,224,0.24)'  },
-  "Manualidades":    { c:'#FF9F0A', s:'rgba(255,159,10,0.10)',  l:'rgba(255,159,10,0.20)'  },
-  "Entretenimiento": { c:'#BF5AF2', s:'rgba(191,90,242,0.12)',  l:'rgba(191,90,242,0.24)'  },
-  "Otros":           { c:'#8E8E93', s:'rgba(142,142,147,0.10)', l:'rgba(142,142,147,0.20)' },
+/* ─── DYNAMIC COLOUR SYSTEM ──────────────────────────────
+   13-slot Apple palette. Known categories are pinned to a
+   stable slot. Any new category from Sheets gets the next
+   free slot automatically — zero changes to the HTML needed.
+──────────────────────────────────────────────────────── */
+const COLOR_POOL = [
+  { c:'#5E5CE6', s:'rgba(94,92,230,0.14)',   l:'rgba(94,92,230,0.26)'   },
+  { c:'#30D158', s:'rgba(48,209,88,0.12)',   l:'rgba(48,209,88,0.24)'   },
+  { c:'#FF375F', s:'rgba(255,55,95,0.12)',   l:'rgba(255,55,95,0.24)'   },
+  { c:'#FF9F0A', s:'rgba(255,159,10,0.12)',  l:'rgba(255,159,10,0.24)'  },
+  { c:'#0A84FF', s:'rgba(10,132,255,0.12)',  l:'rgba(10,132,255,0.24)'  },
+  { c:'#40CBE0', s:'rgba(64,203,224,0.12)',  l:'rgba(64,203,224,0.24)'  },
+  { c:'#BF5AF2', s:'rgba(191,90,242,0.12)',  l:'rgba(191,90,242,0.24)'  },
+  { c:'#FFD60A', s:'rgba(255,214,10,0.12)',  l:'rgba(255,214,10,0.24)'  },
+  { c:'#FF6961', s:'rgba(255,105,97,0.12)',  l:'rgba(255,105,97,0.24)'  },
+  { c:'#32ADE6', s:'rgba(50,173,230,0.12)',  l:'rgba(50,173,230,0.24)'  },
+  { c:'#34C759', s:'rgba(52,199,89,0.10)',   l:'rgba(52,199,89,0.20)'   },
+  { c:'#AC8E68', s:'rgba(172,142,104,0.12)', l:'rgba(172,142,104,0.24)' },
+  { c:'#8E8E93', s:'rgba(142,142,147,0.10)', l:'rgba(142,142,147,0.20)' },
+];
+
+// Pinned slots — known categories always keep their colour
+const PINNED = {
+  'IA & Claude':0, 'Excel & Datos':1, 'Ejercicio':2,
+  'Cocina':3, 'Diseño & Foto':4, 'Tech':5,
+  'Manualidades':3, 'Entretenimiento':6, 'Otros':12,
 };
+
+let CATS = {};
+
+function buildColorMap(categories) {
+  const pinnedSlots = new Set(Object.values(PINNED));
+  const usedSlots   = new Set();
+  let   nextFree    = 0;
+  CATS = {};
+  categories.forEach(name => {
+    if (PINNED[name] !== undefined) {
+      CATS[name] = COLOR_POOL[PINNED[name]];
+      usedSlots.add(PINNED[name]);
+    } else {
+      while (usedSlots.has(nextFree) || pinnedSlots.has(nextFree)) nextFree++;
+      const slot = nextFree < COLOR_POOL.length ? nextFree : 12;
+      CATS[name]  = COLOR_POOL[slot];
+      usedSlots.add(slot);
+      nextFree++;
+    }
+  });
+}
 
 /* ─── STATE ─── */
 let DATA = [], filterCat = 'Todos';
@@ -671,6 +708,9 @@ async function loadFromSheets() {
       c: row.categoria || row.Categoria || row.category || 'Otros',
       y: String(row.año|| row.Año       || row.year     || ''),
     })).filter(r => r.l && r.u);
+    // Extract unique categories in order of first appearance, then build color map
+    const uniqueCats = [...new Set(DATA.map(d => d.c))].sort((a,b) => a.localeCompare(b));
+    buildColorMap(uniqueCats);
     buildCats();
     render();
   } catch(e) {
@@ -722,6 +762,7 @@ function render() {
   const cm = document.getElementById('cats-meta');
   if (cm) cm.textContent = `${filtered.length} / ${DATA.length}`;
   document.getElementById('footer-info').textContent   = `${Object.keys(CATS).length} categorías · ${DATA.length} recursos`;
+  document.getElementById('stat-cats').textContent     = `${Object.keys(CATS).length} categorías`;
 
   if (!filtered.length) {
     el.innerHTML = `
